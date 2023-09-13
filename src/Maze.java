@@ -125,16 +125,16 @@ public class Maze {
         Collections.shuffle(neighbours);
       
         if (!neighbours.isEmpty()) {
-            if (neighbours.get(0) == node.nodeLeft) {
+            if (node.nodeLeft != null && neighbours.get(0).x == node.nodeLeft.x && neighbours.get(0).y == node.nodeLeft.y) {
                 nodeIndicator = 0;
             }
-            if (neighbours.get(0) == node.nodeRight) {
+            if (node.nodeRight != null && neighbours.get(0).x == node.nodeRight.x && neighbours.get(0).y == node.nodeRight.y) {
                 nodeIndicator = 1;
             }
-            if (neighbours.get(0) == node.nodeAbove) {
+            if (node.nodeAbove != null && neighbours.get(0).x == node.nodeAbove.x && neighbours.get(0).y == node.nodeAbove.y) {
                 nodeIndicator = 2;
             }
-            if (neighbours.get(0) == node.nodeBelow) {
+            if (node.nodeBelow != null && neighbours.get(0).x == node.nodeBelow.x && neighbours.get(0).y == node.nodeBelow.y) {
                 nodeIndicator = 3;
             }
         }
@@ -145,7 +145,21 @@ public class Maze {
     public void displayMaze(){
         for(int col = 0; col < columns; col++) {
             for(int row = 0; row < rows; row++) {
-                System.out.print(nodes[row][col].cellConnectivity + " ");
+                System.out.print(nodes[row][col].cellConnectivity + "  ");
+                if(nodes[row][col].cellConnectivity == 1 || nodes[row][col].cellConnectivity == 3){
+                    System.out.print("|");
+                }
+                else{
+                    System.out.print(" ");
+                }
+            }
+            for(int row = 0; row < rows; row++) {
+                if(nodes[row][col].cellConnectivity == 2 || nodes[row][col].cellConnectivity == 3){
+                    System.out.print("--+");
+                }
+                else{
+                    System.out.print("  +");
+                }
             }
             System.out.println();
         }
