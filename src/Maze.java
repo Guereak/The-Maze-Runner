@@ -41,9 +41,9 @@ public class Maze {
                 if(startNode.x == row && startNode.y == col){
                     System.out.print(" S ");
                 }
-                /*else if(endNode.x == row && endNode.y == col){
+                else if(endNode != null && endNode.x == row && endNode.y == col){
                     System.out.print(" E ");
-                }*/
+                }
                 else{
                     System.out.print("   ");
                 }
