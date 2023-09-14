@@ -3,18 +3,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class MazeSolver {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello World!");
         Maze m = readMaze("../maze.txt");
+        //solveMazeBFS(m);
         m.displayMaze();
         m.displayMazeTest();
     }
 
 
-//Inchaalah ça marche
-    public void solveMazeBFS(Maze m) {
+    //Not tested yet
+    public static void solveMazeBFS(Maze m) {
         Queue<Node> nodeQueue = new LinkedList<>(); // Use a regular queue
         nodeQueue.add(m.startNode);
 
@@ -38,12 +40,37 @@ public class MazeSolver {
                     nodeQueue.add(neighbor);
                 }
             }
+        }        
+
+    }
+
+    //Not tested yet
+    public static void solveMazeDFS(Maze m) {
+    Stack<Node> nodeStack = new Stack<>();
+    nodeStack.push(m.startNode);
+
+    while (!nodeStack.isEmpty()) {
+        Node currentNode = nodeStack.pop();
+
+        if (currentNode == m.endNode) {
+            Node n = currentNode;
+            while(n.parent != null) {
+                n = n.parent;
+                System.out.println(n.x + ", " + n.y);
+            }
+            break;
         }
-    }
 
-    public void solveMazeDFS() {
-
-    }
+        // Explore neighboring nodes
+        for (Node neighbor : currentNode.getNeighbours()) {
+            if (!neighbor.visited) {
+                neighbor.visited = true;
+                neighbor.setParent(currentNode);
+                nodeStack.push(neighbor);
+            }
+        }
+    }   
+}
 
     public static Maze readMaze(String filepath){
         int row_count = 0;
@@ -111,8 +138,53 @@ public class MazeSolver {
 
                 m.nodes[i][j].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(j * row_count + i));
 
-                //TODO add graph connections
+                if(m.nodes[i][j].cellConnectivity == 1 || m.nodes[i][j].cellConnectivity == 3){
+                    m.nodes[i][j].nodeLeft = m.nodes[i + 1][j];
+                    m.nodes[i + 1][j].nodeRight = m.nodes[i][j];
+                }
+                if(m.nodes[i][j].cellConnectivity == 2 || m.nodes[i][j].cellConnectivity == 3){
+                    m.nodes[i][j].nodeBelow = m.nodes[i][j + 1];
+                    m.nodes[i][j + 1].nodeAbove = m.nodes[i][j];
+                }
             }
+        }
+
+        //Just for debug
+        for(int col = 0; col < col_count; col++){
+            for(int row = 0; row < row_count; row++){
+                if(m.nodes[col][row].nodeAbove != null){
+                    System.out.print(" | ");
+                }
+                else{
+                    System.out.print("   ");
+                }
+            }
+            System.out.println();
+            for(int row = 0; row < row_count; row++){
+                if(m.nodes[col][row].nodeLeft != null){
+                    System.out.print("-+");
+                }
+                else{
+                    System.out.print(" +");
+                }
+                if(m.nodes[col][row].nodeRight != null){
+                    System.out.print("-");
+
+                }
+                else{
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+            for(int row = 0; row < row_count; row++){
+                if(m.nodes[col][row].nodeBelow != null){
+                    System.out.print(" | ");
+                }
+                else{
+                    System.out.print("   ");
+                }
+            }
+            System.out.println();
         }
 
         return m;

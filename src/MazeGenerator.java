@@ -6,8 +6,8 @@ public class MazeGenerator {
     public static Maze generateMaze(int columns, int rows) {
         Maze maze = new Maze(columns, rows);
 
-        for(int row = 0; row < rows; ++row) {
-            for(int col = 0; col < columns; ++col) {
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < columns; col++) {
                 maze.nodes[row][col] = new Node();
                 maze.nodes[row][col].x = col;
                 maze.nodes[row][col].y = row;
@@ -23,7 +23,9 @@ public class MazeGenerator {
 
         //Grid generated, we now take care of the DFS generation
         Stack<Node> nodeStack = new Stack<>();
+
         nodeStack.push(maze.startNode);
+        
 
         while(!nodeStack.empty()){
             Node currentNode = nodeStack.peek();
@@ -74,6 +76,7 @@ public class MazeGenerator {
                 System.out.println("Popped");
             }
         }
+
 
                 //We then loop through all the nodes and set the cellConnectivity property
                 for(int col = 0; col < columns; col++){
