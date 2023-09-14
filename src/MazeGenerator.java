@@ -23,7 +23,6 @@ public class MazeGenerator {
         // surrounded by 3 walls. If we wanted to do so, we would have to set the starting node again after the first stack.pop()
         // is called.
 
-        System.out.println("Starting position: " + maze.startNode.x + ", " + maze.startNode.y);
 
         //Grid generated, we now take care of the DFS generation
         Stack<Node> nodeStack = new Stack<>();
@@ -66,11 +65,9 @@ public class MazeGenerator {
                         break;
                 }
 
-                System.out.println(currentNode.x + "," + currentNode.y + " -> " + chosenNode.x + "," + chosenNode.y);
             }
             else{
                 nodeStack.pop();
-                System.out.println("Popped");
             }
         }
 
@@ -87,8 +84,6 @@ public class MazeGenerator {
                 }
             }
         }
-                
-        System.out.println("Max stack length: " + maxStackLength);
 
         return maze;
     }
@@ -123,7 +118,9 @@ public class MazeGenerator {
 
     public static void main(String[] args){
         Maze m = generateMaze(5, 8);
-        m.displayMazeTest();
         m.displayMaze();
+
+        Maze m2 = Maze.readMaze("../maze.txt");
+        m.export("../maze.dat");
     }
 }
