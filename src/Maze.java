@@ -47,7 +47,7 @@ public class Maze {
                 else{
                     System.out.print("   ");
                 }
-                if(nodes[row][col].cellConnectivity == 1 || nodes[row][col].cellConnectivity == 3){
+                if(nodes[col][row].cellConnectivity == 1 || nodes[col][row].cellConnectivity == 3){
                     System.out.print(" ");
                 }
                 else{
@@ -57,7 +57,7 @@ public class Maze {
             System.out.println();
             System.out.print("+");
             for(int row = 0; row < rows; row++) {
-                if(nodes[row][col].cellConnectivity == 2 || nodes[row][col].cellConnectivity == 3){
+                if(nodes[col][row].cellConnectivity == 2 || nodes[col][row].cellConnectivity == 3){
                     System.out.print("   +");
                 }
                 else{
@@ -71,9 +71,20 @@ public class Maze {
     public void displayMazeTest(){
         for(int col = 0; col < columns; col++) {
             for(int row = 0; row < rows; row++) {
-                System.out.print(nodes[row][col].cellConnectivity + " ");
+                System.out.print(nodes[col][row].cellConnectivity + " ");
             }
             System.out.println();
+        }
+    }
+
+    public void export(){
+        System.out.println(columns + " " + rows);
+        System.out.println(startNode.x + " " + startNode.y);
+        System.out.println(endNode.x + " " + endNode.y);
+        for(int col = 0; col < columns; col++) {
+            for(int row = 0; row < rows; row++) {
+                System.out.print(nodes[col][row].cellConnectivity);
+            }
         }
     }
 }

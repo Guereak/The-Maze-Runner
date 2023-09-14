@@ -8,9 +8,9 @@ public class MazeGenerator {
 
         for(int row = 0; row < rows; row++) {
             for(int col = 0; col < columns; col++) {
-                maze.nodes[row][col] = new Node();
-                maze.nodes[row][col].x = col;
-                maze.nodes[row][col].y = row;
+                maze.nodes[col][row] = new Node();
+                maze.nodes[col][row].x = col;
+                maze.nodes[col][row].y = row;
             }
         }
 
@@ -98,7 +98,7 @@ public class MazeGenerator {
                         }
                         if(maze.nodes[col][row].nodeRight != null){
                             System.out.print("-");
-                            maze.nodes[col][row].cellConnectivity += 2;
+                            maze.nodes[col][row].cellConnectivity += 1;
 
                         }
                         else{
@@ -109,7 +109,7 @@ public class MazeGenerator {
                     for(int row = 0; row < rows; row++){
                         if(maze.nodes[col][row].nodeBelow != null){
                             System.out.print(" | ");
-                            maze.nodes[col][row].cellConnectivity += 1;
+                            maze.nodes[col][row].cellConnectivity += 2;
                         }
                         else{
                             System.out.print("   ");
@@ -124,23 +124,23 @@ public class MazeGenerator {
     public static ArrayList<Pair> getUnvisitedNeighbours(Maze maze, Node currentNode){
         ArrayList<Pair> arrayList = new ArrayList<>();
         
-        if(currentNode.x > 0 && maze.nodes[currentNode.y][currentNode.x - 1].visited == false){
-            Pair p = new Pair(maze.nodes[currentNode.y][currentNode.x - 1], 0);
+        if(currentNode.y > 0 && maze.nodes[currentNode.x][currentNode.y - 1].visited == false){
+            Pair p = new Pair(maze.nodes[currentNode.x][currentNode.y - 1], 0);
 
             arrayList.add(p);
         }   
-        if(currentNode.x < maze.columns - 1 && maze.nodes[currentNode.y][currentNode.x + 1].visited == false){
-            Pair p = new Pair(maze.nodes[currentNode.y][currentNode.x + 1], 1);
+        if(currentNode.y < maze.rows - 1 && maze.nodes[currentNode.x][currentNode.y + 1].visited == false){
+            Pair p = new Pair(maze.nodes[currentNode.x][currentNode.y + 1], 1);
             
             arrayList.add(p);
         }
-        if(currentNode.y > 0 && maze.nodes[currentNode.y - 1][currentNode.x].visited == false){
-            Pair p = new Pair(maze.nodes[currentNode.y - 1][currentNode.x], 2);
+        if(currentNode.x > 0 && maze.nodes[currentNode.x - 1][currentNode.y].visited == false){
+            Pair p = new Pair(maze.nodes[currentNode.x - 1][currentNode.y], 2);
             
             arrayList.add(p);
         }
-        if(currentNode.y < maze.rows - 1 && maze.nodes[currentNode.y + 1][currentNode.x].visited == false){
-            Pair p = new Pair(maze.nodes[currentNode.y + 1][currentNode.x], 3);
+        if(currentNode.x < maze.columns - 1 && maze.nodes[currentNode.x + 1][currentNode.y].visited == false){
+            Pair p = new Pair(maze.nodes[currentNode.x + 1][currentNode.y], 3);
             
             arrayList.add(p);
         }
@@ -149,7 +149,7 @@ public class MazeGenerator {
     }
 
     public static void main(String[] args){
-        Maze m = generateMaze(5, 5);
+        Maze m = generateMaze(5, 8);
         m.displayMazeTest();
         m.displayMaze();
     }
