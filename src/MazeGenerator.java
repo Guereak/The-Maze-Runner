@@ -40,24 +40,29 @@ public class MazeGenerator {
                         currentNode.nodeLeft = chosenNode;
                         chosenNode.nodeRight = currentNode;
 
-                        System.out.println("Left");
+                        //System.out.println("Left");
                         break;
                     case 1:
                         currentNode.nodeRight = chosenNode;
                         chosenNode.nodeLeft = currentNode;
-                        System.out.println("Right");
+
+                        //System.out.println("Right");
 
                         break;
                     case 2:
                         currentNode.nodeAbove = chosenNode;
                         chosenNode.nodeBelow = currentNode;
-                        System.out.println("Above");
+
+
+                        //System.out.println("Above");
 
                         break;
                     case 3:
                         currentNode.nodeBelow = chosenNode;
                         chosenNode.nodeAbove = currentNode;
-                        System.out.println("Below");
+
+
+                        //System.out.println("Below");
 
                         break;
                 }
@@ -90,6 +95,8 @@ public class MazeGenerator {
                         }
                         if(maze.nodes[col][row].nodeRight != null){
                             System.out.print("-");
+                            maze.nodes[col][row].cellConnectivity += 2;
+
                         }
                         else{
                             System.out.print(" ");
@@ -99,25 +106,13 @@ public class MazeGenerator {
                     for(int row = 0; row < rows; row++){
                         if(maze.nodes[col][row].nodeBelow != null){
                             System.out.print(" | ");
+                            maze.nodes[col][row].cellConnectivity += 1;
                         }
                         else{
                             System.out.print("   ");
                         }
                     }
                     System.out.println();
-                }
-
-                for(int col = 0; col < columns; col++){
-                    for(int row = 0; row < rows; row++){
-                        maze.nodes[col][row].cellConnectivity = 0;
-
-                        if(maze.nodes[col][row].nodeAbove != null){
-                            maze.nodes[col][row].cellConnectivity += 2;
-                        }
-                        if(maze.nodes[col][row].nodeLeft != null){
-                            maze.nodes[col][row].cellConnectivity += 1;
-                        }
-                    }
                 }
 
         return maze;

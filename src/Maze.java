@@ -31,7 +31,7 @@ public class Maze {
 
     public void displayMaze(){
         for(int row = 0; row < rows; row++) {
-            System.out.print("+--");
+            System.out.print("+---");
         }
         System.out.println("+");
 
