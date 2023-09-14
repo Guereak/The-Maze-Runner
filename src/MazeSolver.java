@@ -112,7 +112,6 @@ public class MazeSolver {
                 return null;
             }
 
-
             row_count = Integer.parseInt(numbers[0]);
             col_count = Integer.parseInt(numbers[1]);
             starting_node = Integer.parseInt(numbers[2]);

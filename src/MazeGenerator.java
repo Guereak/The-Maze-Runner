@@ -19,53 +19,50 @@ public class MazeGenerator {
         //Set a random starting position
         maze.startNode = maze.nodes[random.nextInt(columns)][random.nextInt(rows)];
 
+        // Note: in the Random walk technique, we walk around randomly, therefore the starting node is not necessarily
+        // surrounded by 3 walls. If we wanted to do so, we would have to set the starting node again after the first stack.pop()
+        // is called.
+
         System.out.println("Starting position: " + maze.startNode.x + ", " + maze.startNode.y);
 
         //Grid generated, we now take care of the DFS generation
         Stack<Node> nodeStack = new Stack<>();
-
+        int maxStackLength = 0;
         nodeStack.push(maze.startNode);
         
 
         while(!nodeStack.empty()){
             Node currentNode = nodeStack.peek();
             currentNode.visited = true;
-            ArrayList<Pair> neighbours = getUnvisitedNeighbours(maze, currentNode);
+            ArrayList<Pair> neighbours = handleAdjacentNodes(maze, currentNode);
+            
+            if(nodeStack.size() > maxStackLength){
+                maxStackLength = nodeStack.size();
+                maze.endNode = maze.nodes[currentNode.x][currentNode.y];
+            }
 
             if(!neighbours.isEmpty()){
                 Pair chosenPair = neighbours.get(random.nextInt(neighbours.size()));
                 Node chosenNode = chosenPair.node;
                 nodeStack.push(chosenNode);
-
+                
                 switch(chosenPair.direction){
                     case 0:
                         currentNode.nodeLeft = chosenNode;
                         chosenNode.nodeRight = currentNode;
-
-                        //System.out.println("Left");
                         break;
                     case 1:
                         currentNode.nodeRight = chosenNode;
                         chosenNode.nodeLeft = currentNode;
 
-                        //System.out.println("Right");
-
                         break;
                     case 2:
                         currentNode.nodeAbove = chosenNode;
                         chosenNode.nodeBelow = currentNode;
-
-
-                        //System.out.println("Above");
-
                         break;
                     case 3:
                         currentNode.nodeBelow = chosenNode;
                         chosenNode.nodeAbove = currentNode;
-
-
-                        //System.out.println("Below");
-
                         break;
                 }
 
@@ -77,51 +74,27 @@ public class MazeGenerator {
             }
         }
 
-
-                //We then loop through all the nodes and set the cellConnectivity property
-                for(int col = 0; col < columns; col++){
-                    for(int row = 0; row < rows; row++){
-                        if(maze.nodes[col][row].nodeAbove != null){
-                            System.out.print(" | ");
-                        }
-                        else{
-                            System.out.print("   ");
-                        }
-                    }
-                    System.out.println();
-                    for(int row = 0; row < rows; row++){
-                        if(maze.nodes[col][row].nodeLeft != null){
-                            System.out.print("-+");
-                        }
-                        else{
-                            System.out.print(" +");
-                        }
-                        if(maze.nodes[col][row].nodeRight != null){
-                            System.out.print("-");
-                            maze.nodes[col][row].cellConnectivity += 1;
-
-                        }
-                        else{
-                            System.out.print(" ");
-                        }
-                    }
-                    System.out.println();
-                    for(int row = 0; row < rows; row++){
-                        if(maze.nodes[col][row].nodeBelow != null){
-                            System.out.print(" | ");
-                            maze.nodes[col][row].cellConnectivity += 2;
-                        }
-                        else{
-                            System.out.print("   ");
-                        }
-                    }
-                    System.out.println();
+        //We then loop through all the nodes and set the cellConnectivity property
+        for(int col = 0; col < columns; col++){
+            for(int row = 0; row < rows; row++){
+                if(maze.nodes[col][row].nodeRight != null){
+                    maze.nodes[col][row].cellConnectivity += 1;
                 }
+            }
+            for(int row = 0; row < rows; row++){
+                if(maze.nodes[col][row].nodeBelow != null){
+                    maze.nodes[col][row].cellConnectivity += 2;
+                }
+            }
+        }
+                
+        System.out.println("Max stack length: " + maxStackLength);
 
         return maze;
     }
 
-    public static ArrayList<Pair> getUnvisitedNeighbours(Maze maze, Node currentNode){
+
+    public static ArrayList<Pair> handleAdjacentNodes(Maze maze, Node currentNode){
         ArrayList<Pair> arrayList = new ArrayList<>();
         
         if(currentNode.y > 0 && maze.nodes[currentNode.x][currentNode.y - 1].visited == false){

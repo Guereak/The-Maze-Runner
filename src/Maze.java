@@ -38,10 +38,10 @@ public class Maze {
         for(int col = 0; col < columns; col++) {
             System.out.print("|");
             for(int row = 0; row < rows; row++) {
-                if(startNode.x == row && startNode.y == col){
+                if(startNode.x == col && startNode.y == row){
                     System.out.print(" S ");
                 }
-                else if(endNode != null && endNode.x == row && endNode.y == col){
+                else if(endNode != null && endNode.x == col && endNode.y == row){
                     System.out.print(" E ");
                 }
                 else{
