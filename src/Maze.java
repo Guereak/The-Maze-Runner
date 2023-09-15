@@ -102,6 +102,8 @@ public class Maze {
         }
     }
 
+
+    //Apparently not working as intended
     public static Maze readMaze(String filepath){
         int row_count = 0;
         int col_count = 0;
@@ -155,65 +157,31 @@ public class Maze {
         //We generate the maze with the corresponding dimensions
         Maze m = new Maze(col_count, row_count);
 
-        for(int i = 0; i < col_count; i++){
-            for(int j = 0; j < row_count; j++){
-
-                if(starting_node == i * row_count + j + 1){
-                    m.startNode = m.nodes[j][i];
+        for(int i = 0; i < row_count; i++){
+            for(int j = 0; j < col_count; j++){
+        
+                if(starting_node == i * col_count + j + 1){
+                    m.startNode = m.nodes[i][j];
                 }
-                if(finishing_node == i * row_count + j + 1){
-                    m.endNode = m.nodes[j][i];
+                if(finishing_node == i * col_count + j + 1){
+                    m.endNode = m.nodes[i][j];
                 }
-
-                m.nodes[i][j].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(j * row_count + i));
-
+        
+                m.nodes[i][j].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(i * col_count + j));
+        
                 if(m.nodes[i][j].cellConnectivity == 1 || m.nodes[i][j].cellConnectivity == 3){
-                    m.nodes[i][j].nodeLeft = m.nodes[i + 1][j];
-                    m.nodes[i + 1][j].nodeRight = m.nodes[i][j];
+                    if(j + 1 < col_count) {
+                        m.nodes[i][j].nodeRight = m.nodes[i][j + 1];
+                        m.nodes[i][j + 1].nodeLeft = m.nodes[i][j];
+                    }
                 }
                 if(m.nodes[i][j].cellConnectivity == 2 || m.nodes[i][j].cellConnectivity == 3){
-                    m.nodes[i][j].nodeBelow = m.nodes[i][j + 1];
-                    m.nodes[i][j + 1].nodeAbove = m.nodes[i][j];
+                    if(i + 1 < row_count) {
+                        m.nodes[i][j].nodeBelow = m.nodes[i + 1][j];
+                        m.nodes[i + 1][j].nodeAbove = m.nodes[i][j];
+                    }
                 }
             }
-        }
-
-        //Just for debug
-        for(int col = 0; col < col_count; col++){
-            for(int row = 0; row < row_count; row++){
-                if(m.nodes[col][row].nodeAbove != null){
-                    System.out.print(" | ");
-                }
-                else{
-                    System.out.print("   ");
-                }
-            }
-            System.out.println();
-            for(int row = 0; row < row_count; row++){
-                if(m.nodes[col][row].nodeLeft != null){
-                    System.out.print("-+");
-                }
-                else{
-                    System.out.print(" +");
-                }
-                if(m.nodes[col][row].nodeRight != null){
-                    System.out.print("-");
-
-                }
-                else{
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-            for(int row = 0; row < row_count; row++){
-                if(m.nodes[col][row].nodeBelow != null){
-                    System.out.print(" | ");
-                }
-                else{
-                    System.out.print("   ");
-                }
-            }
-            System.out.println();
         }
 
         return m;

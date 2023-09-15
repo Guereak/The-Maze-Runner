@@ -6,8 +6,8 @@ public class MazeSolver {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello World!");
         Maze m = Maze.readMaze("../maze.txt");
-        //solveMazeBFS(m);
         m.displayMaze();
+        solveMazeBFS(m);
     }
 
 
@@ -23,7 +23,7 @@ public class MazeSolver {
                 Node n = currentNode;
                 while(n.parent != null){
                     n = n.parent;
-                    System.out.println(n.x + ", " + n.y);
+                    //System.out.println(n.x + ", " + n.y);
                 }
                 break;
             }

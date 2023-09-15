@@ -117,10 +117,21 @@ public class MazeGenerator {
     }
 
     public static void main(String[] args){
-        Maze m = generateMaze(5, 8);
-        m.displayMaze();
+        if(args.length != 3){
+            Maze m = generateMaze(5, 8);
+            m.displayMaze();
 
-        Maze m2 = Maze.readMaze("../maze.txt");
-        m.export("../maze.dat");
+            Maze m2 = Maze.readMaze("../maze.txt");
+            //m.export("../maze.dat");
+        }
+        else{
+            int columns = Integer.parseInt(args[0]);
+            int rows = Integer.parseInt(args[1]);
+            String filename = args[2];
+
+            Maze m = generateMaze(columns, rows);
+            m.displayMaze();
+            m.export(filename);
+        }
     }
 }
