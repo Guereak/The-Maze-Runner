@@ -15,16 +15,16 @@ public class Node {
 
     public ArrayList<Node> getNeighbours(){
         ArrayList<Node> neighbours = new ArrayList<Node>();
-        if(nodeLeft != null){
+        if(nodeLeft != null && nodeLeft.visited == false){
             neighbours.add(nodeLeft);
         }
-        if(nodeRight != null){
+        if(nodeRight != null && nodeRight.visited == false){
             neighbours.add(nodeRight);
         }
-        if(nodeAbove != null){
+        if(nodeAbove != null && nodeAbove.visited == false){
             neighbours.add(nodeAbove);
         }
-        if(nodeBelow != null){
+        if(nodeBelow != null && nodeBelow.visited == false){
             neighbours.add(nodeBelow);
         }
         return neighbours;

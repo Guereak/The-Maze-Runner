@@ -121,7 +121,7 @@ public class MazeGenerator {
             Maze m = generateMaze(5, 8);
             m.displayMaze();
 
-            Maze m2 = Maze.readMaze("../maze.txt");
+            Maze.readMaze("../maze.txt");
             //m.export("../maze.dat");
         }
         else{

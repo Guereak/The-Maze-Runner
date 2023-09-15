@@ -156,7 +156,7 @@ public class Maze {
 
         //We generate the maze with the corresponding dimensions
         Maze m = new Maze(col_count, row_count);
-
+        
         for(int i = 0; i < row_count; i++){
             for(int j = 0; j < col_count; j++){
         

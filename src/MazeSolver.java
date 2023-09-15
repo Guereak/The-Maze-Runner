@@ -7,6 +7,7 @@ public class MazeSolver {
         System.out.println("Hello World!");
         Maze m = Maze.readMaze("../maze.txt");
         m.displayMaze();
+        solveMazeDFS(m);
         solveMazeBFS(m);
     }
 
@@ -15,6 +16,7 @@ public class MazeSolver {
     public static void solveMazeBFS(Maze m) {
         Queue<Node> nodeQueue = new LinkedList<>(); // Use a regular queue
         nodeQueue.add(m.startNode);
+        m.startNode.visited = true;
 
         while (!nodeQueue.isEmpty()) {
             Node currentNode = nodeQueue.poll(); // Remove the first node from the queue
@@ -23,7 +25,7 @@ public class MazeSolver {
                 Node n = currentNode;
                 while(n.parent != null){
                     n = n.parent;
-                    //System.out.println(n.x + ", " + n.y);
+                    System.out.println("Dequeue: " + n.x + ", " + n.y);
                 }
                 break;
             }
@@ -44,6 +46,7 @@ public class MazeSolver {
     public static void solveMazeDFS(Maze m) {
     Stack<Node> nodeStack = new Stack<>();
     nodeStack.push(m.startNode);
+    m.startNode.visited = true;
 
     while (!nodeStack.isEmpty()) {
         Node currentNode = nodeStack.pop();
