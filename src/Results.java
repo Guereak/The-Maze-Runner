@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Results {
@@ -29,8 +32,45 @@ public class Results {
         System.out.println("Path Length: " + steps);
         System.out.print("Path: (");
         for(int i = 0; i < positions.size(); i++){
-            System.out.print(positions.get(i) + ",");
+            System.out.print(positions.get(i));
+            if(i != positions.size() - 1){
+                System.out.print(", ");
+            }
         }
+        
         System.out.println(")");
+    }
+
+    public void export(String fileName){
+        String content = steps + ":(";
+
+
+        for(int i = 0; i < positions.size(); i++){
+            content += positions.get(i);
+            if(i != positions.size() - 1){
+                content += ",";
+            }
+        }
+
+        content += ")";
+
+        try {
+            // Create a FileWriter with the given file name
+            FileWriter fileWriter = new FileWriter(fileName);
+
+            // Create a BufferedWriter to write efficiently
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // Write the string to the file
+            bufferedWriter.write(content);
+
+            // Close the BufferedWriter
+            bufferedWriter.close();
+
+            System.out.println("String has been written to " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

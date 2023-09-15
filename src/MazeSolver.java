@@ -4,14 +4,25 @@ import java.util.Stack;
 
 public class MazeSolver {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello World!");
-        //Maze m = Maze.readMaze("../maze.txt");
-        Maze m = MazeGenerator.generateMaze(5, 5);
+        if(args.length != 2){
+            System.out.println("Usage: java MazeSolver <maze file> <output file>");
+            System.exit(1);
+            return;
+        }
+
+        String mazePath = args[0];
+        String outputPath = args[1];
+
+        Maze m = Maze.readMaze(mazePath);
 
         m.displayMaze();
-        //solveMazeDFS(m);
+        Results r1 = solveMazeDFS(m);
         Results r = solveMazeBFS(m);
+
         r.show();
+        r1.show();
+
+        r.export(outputPath);
     }
 
     public static Results solveMazeBFS(Maze m) {
@@ -30,9 +41,10 @@ public class MazeSolver {
 
             if (currentNode == m.endNode) {
                 Node n = currentNode;
+                positions.push(currentNode.x * m.columns + currentNode.y + 1);
                 while(n.parent != null){
                     n = n.parent;
-                    positions.push(n.y * m.columns + n.x + 1);
+                    positions.push(n.x * m.columns + n.y + 1);
                 }
                 break;
             }
@@ -60,33 +72,56 @@ public class MazeSolver {
         return r;
     }
 
-    public static void solveMazeDFS(Maze m) {
-    Stack<Node> nodeStack = new Stack<>();
-    nodeStack.push(m.startNode);
-    m.startNode.visited = true;
+    public static Results solveMazeDFS(Maze m) {
+        Results r = new Results("DFS");
+        Stack<Integer> positions = new Stack<>();
 
-    while (!nodeStack.isEmpty()) {
-        Node currentNode = nodeStack.pop();
+        long startTime = System.currentTimeMillis();
 
-        if (currentNode == m.endNode) {
-            Node n = currentNode;
-            while(n.parent != null) {
-                n = n.parent;
-                System.out.println(n.x + ", " + n.y);
+        Stack<Node> nodeStack = new Stack<>();
+        nodeStack.push(m.startNode);
+        m.startNode.visited = true;
+
+        while (!nodeStack.isEmpty()) {
+            Node currentNode = nodeStack.pop();
+            r.totalSteps++;
+
+            if (currentNode == m.endNode) {
+                Node n = currentNode;
+                positions.push(currentNode.x * m.columns + currentNode.y + 1);
+                while(n.parent != null) {
+                    n = n.parent;
+                    positions.push(n.x * m.columns + n.y + 1);
+                }
+                break;
             }
-            break;
+
+            // Explore neighboring nodes
+            for (Node neighbor : currentNode.getNeighbours()) {
+                if (!neighbor.visited) {
+                    neighbor.visited = true;
+                    neighbor.setParent(currentNode);
+                    nodeStack.push(neighbor);
+                    r.totalSteps++;
+                }
+            }
         }
 
-        // Explore neighboring nodes
-        for (Node neighbor : currentNode.getNeighbours()) {
-            if (!neighbor.visited) {
-                neighbor.visited = true;
-                neighbor.setParent(currentNode);
-                nodeStack.push(neighbor);
-            }
+        
+        long endTime = System.currentTimeMillis();
+        r.timeTaken = endTime - startTime;
+        
+        while(!positions.isEmpty()){
+            r.addPosition(positions.pop());
         }
-    }   
-}
+
+        //We remove the final dequeue from the total steps count
+        r.totalSteps -= r.getSteps();
+        
+        m.refreshMaze();
+
+        return r;   
+    }
 
     
 }

@@ -86,7 +86,7 @@ public class MazeGenerator {
         }
 
         maze.refreshMaze();
-        
+
         return maze;
     }
 
@@ -120,11 +120,9 @@ public class MazeGenerator {
 
     public static void main(String[] args){
         if(args.length != 3){
-            Maze m = generateMaze(5, 8);
-            m.displayMaze();
-
-            Maze.readMaze("../maze.txt");
-            //m.export("../maze.dat");
+            System.out.println("Usage: java MazeGenerator <columns> <rows> <output file>");
+            System.exit(1);
+            return;
         }
         else{
             int columns = Integer.parseInt(args[0]);
