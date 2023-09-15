@@ -85,6 +85,8 @@ public class MazeGenerator {
             }
         }
 
+        maze.refreshMaze();
+        
         return maze;
     }
 

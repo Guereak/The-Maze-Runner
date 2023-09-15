@@ -186,4 +186,13 @@ public class Maze {
 
         return m;
     }
+
+    public void refreshMaze(){
+        for(int col = 0; col < columns; col++){
+            for(int row = 0; row < rows; row++){
+                nodes[col][row].visited = false;
+                nodes[col][row].parent = null;
+            }
+        }
+    }
 }

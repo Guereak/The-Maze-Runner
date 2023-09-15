@@ -5,27 +5,34 @@ import java.util.Stack;
 public class MazeSolver {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello World!");
-        Maze m = Maze.readMaze("../maze.txt");
+        //Maze m = Maze.readMaze("../maze.txt");
+        Maze m = MazeGenerator.generateMaze(5, 5);
+
         m.displayMaze();
-        solveMazeDFS(m);
-        solveMazeBFS(m);
+        //solveMazeDFS(m);
+        Results r = solveMazeBFS(m);
+        r.show();
     }
 
-
-    //Not tested yet
-    public static void solveMazeBFS(Maze m) {
+    public static Results solveMazeBFS(Maze m) {
         Queue<Node> nodeQueue = new LinkedList<>(); // Use a regular queue
+        Stack<Integer> positions = new Stack<>();
+        Results r = new Results("BFS");
+
+        long startTime = System.currentTimeMillis();
+
         nodeQueue.add(m.startNode);
         m.startNode.visited = true;
 
         while (!nodeQueue.isEmpty()) {
             Node currentNode = nodeQueue.poll(); // Remove the first node from the queue
+            r.totalSteps++;
 
             if (currentNode == m.endNode) {
                 Node n = currentNode;
                 while(n.parent != null){
                     n = n.parent;
-                    System.out.println("Dequeue: " + n.x + ", " + n.y);
+                    positions.push(n.y * m.columns + n.x + 1);
                 }
                 break;
             }
@@ -38,11 +45,21 @@ public class MazeSolver {
                     nodeQueue.add(neighbor);
                 }
             }
-        }        
+        }
+        
+        long endTime = System.currentTimeMillis();
 
+        r.timeTaken = endTime - startTime;
+
+        while(!positions.isEmpty()){
+            r.addPosition(positions.pop());
+        }
+
+        m.refreshMaze();
+
+        return r;
     }
 
-    //Not tested yet
     public static void solveMazeDFS(Maze m) {
     Stack<Node> nodeStack = new Stack<>();
     nodeStack.push(m.startNode);
