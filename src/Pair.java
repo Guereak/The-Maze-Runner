@@ -1,3 +1,4 @@
+//The goal of this class is to be able to return both the node and its direction in the handleAdjacentNodes method
 public class Pair {
     public Node node;
     public int direction;

@@ -21,10 +21,11 @@ public class Maze {
         nodes = nodeInit();
     }
 
+
+    // Initialize nodes
     public Node[][] nodeInit() {
         Node[][] nodes = new Node[columns][rows];
     
-        // Initialize nodes
         for(int row = 0; row < rows; ++row) {
             for(int col = 0; col < columns; ++col) {
                 nodes[col][row] = new Node();
@@ -35,6 +36,7 @@ public class Maze {
         return nodes;
     }
 
+    // Display the maze walls using the cellConnectivity info
     public void displayMaze(){
         for(int row = 0; row < rows; row++) {
             System.out.print("+---");
@@ -74,7 +76,7 @@ public class Maze {
         }
     }
 
-
+    // Export the maze to a separate filePath passed in argument
     public void export(String fileName){
         String content = rows + ":" + columns + ":" + (startNode.x * rows + startNode.y + 1) + ":" + (endNode.x * rows + endNode.y + 1) + ":";
         for(int col = 0; col < columns; col++) {
@@ -103,7 +105,7 @@ public class Maze {
     }
 
 
-    //Apparently not working as intended
+    // Reads the Maze from a file
     public static Maze readMaze(String filepath){
         int row_count = 0;
         int col_count = 0;
@@ -167,6 +169,7 @@ public class Maze {
                     m.endNode = m.nodes[i][j];
                 }
         
+                // We set the cellConnectivity property of the cell to the corresponding data in the file we are reading
                 m.nodes[i][j].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(i * col_count + j));
         
                 if(m.nodes[i][j].cellConnectivity == 1 || m.nodes[i][j].cellConnectivity == 3){
@@ -187,6 +190,8 @@ public class Maze {
         return m;
     }
 
+    // After a DFS or a BFS search is completed, this method needs to be called to reset all the visited and parent
+    // properties to a default state, to be able to make another search again
     public void refreshMaze(){
         for(int col = 0; col < columns; col++){
             for(int row = 0; row < rows; row++){

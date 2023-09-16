@@ -23,7 +23,6 @@ public class MazeGenerator {
         // surrounded by 3 walls. If we wanted to do so, we would have to set the starting node again after the first stack.pop()
         // is called.
 
-
         //Grid generated, we now take care of the DFS generation
         Stack<Node> nodeStack = new Stack<>();
         int maxStackLength = 0;
@@ -33,14 +32,18 @@ public class MazeGenerator {
         while(!nodeStack.empty()){
             Node currentNode = nodeStack.peek();
             currentNode.visited = true;
+            // We get all not-yet visited adjacent nodes 
             ArrayList<Pair> neighbours = handleAdjacentNodes(maze, currentNode);
             
+            // To determine where to place the end, we look for the place where the stack is the longest
             if(nodeStack.size() > maxStackLength){
                 maxStackLength = nodeStack.size();
                 maze.endNode = maze.nodes[currentNode.x][currentNode.y];
             }
 
             if(!neighbours.isEmpty()){
+
+                // We choose a node at random in those avilable and we set the properties correctly
                 Pair chosenPair = neighbours.get(random.nextInt(neighbours.size()));
                 Node chosenNode = chosenPair.node;
                 nodeStack.push(chosenNode);
@@ -67,6 +70,7 @@ public class MazeGenerator {
 
             }
             else{
+                // If all sourrounding neighbours have been visited, our only option is to backtrack
                 nodeStack.pop();
             }
         }
@@ -91,9 +95,10 @@ public class MazeGenerator {
     }
 
 
+    // The goal of this method is to return a list of the adjacent nodes that have not yet been visited
     public static ArrayList<Pair> handleAdjacentNodes(Maze maze, Node currentNode){
         ArrayList<Pair> arrayList = new ArrayList<>();
-        
+
         if(currentNode.y > 0 && maze.nodes[currentNode.x][currentNode.y - 1].visited == false){
             Pair p = new Pair(maze.nodes[currentNode.x][currentNode.y - 1], 0);
 
