@@ -41,10 +41,10 @@ public class MazeSolver {
 
             if (currentNode == m.endNode) {
                 Node n = currentNode;
-                positions.push(currentNode.x * m.columns + currentNode.y + 1);
+                positions.push(currentNode.x * m.rows + currentNode.y + 1);
                 while(n.parent != null){
                     n = n.parent;
-                    positions.push(n.x * m.columns + n.y + 1);
+                    positions.push(n.x * m.rows + n.y + 1);
                 }
                 break;
             }
@@ -88,10 +88,10 @@ public class MazeSolver {
 
             if (currentNode == m.endNode) {
                 Node n = currentNode;
-                positions.push(currentNode.x * m.columns + currentNode.y + 1);
+                positions.push(currentNode.x * m.rows + currentNode.y + 1);
                 while(n.parent != null) {
                     n = n.parent;
-                    positions.push(n.x * m.columns + n.y + 1);
+                    positions.push(n.x * m.rows + n.y + 1);
                 }
                 break;
             }

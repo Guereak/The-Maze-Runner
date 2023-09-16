@@ -162,15 +162,15 @@ public class Maze {
         for(int row = 0; row < row_count; row++){
             for(int col = 0; col < col_count; col++){
         
-                if(starting_node == row * col_count + col + 1){
+                if(starting_node == col * row_count + row + 1){
                     m.startNode = m.nodes[col][row];
                 }
-                if(finishing_node == row * col_count + col + 1){
+                if(finishing_node == col * row_count + row + 1){
                     m.endNode = m.nodes[col][row];
                 }
         
                 // We set the cellConnectivity property of the cell to the corresponding data in the file we are reading
-                m.nodes[col][row].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(row * col_count + col));
+                m.nodes[col][row].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(col * row_count + row));
         
                 if(m.nodes[col][row].cellConnectivity == 1 || m.nodes[col][row].cellConnectivity == 3){
                     if(row + 1 < row_count) {
