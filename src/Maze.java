@@ -159,29 +159,29 @@ public class Maze {
         //We generate the maze with the corresponding dimensions
         Maze m = new Maze(col_count, row_count);
         
-        for(int i = 0; i < row_count; i++){
-            for(int j = 0; j < col_count; j++){
+        for(int row = 0; row < row_count; row++){
+            for(int col = 0; col < col_count; col++){
         
-                if(starting_node == i * col_count + j + 1){
-                    m.startNode = m.nodes[i][j];
+                if(starting_node == row * col_count + col + 1){
+                    m.startNode = m.nodes[col][row];
                 }
-                if(finishing_node == i * col_count + j + 1){
-                    m.endNode = m.nodes[i][j];
+                if(finishing_node == row * col_count + col + 1){
+                    m.endNode = m.nodes[col][row];
                 }
         
                 // We set the cellConnectivity property of the cell to the corresponding data in the file we are reading
-                m.nodes[i][j].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(i * col_count + j));
+                m.nodes[col][row].cellConnectivity = Character.getNumericValue(cell_connectivity_list.charAt(row * col_count + col));
         
-                if(m.nodes[i][j].cellConnectivity == 1 || m.nodes[i][j].cellConnectivity == 3){
-                    if(j + 1 < col_count) {
-                        m.nodes[i][j].nodeRight = m.nodes[i][j + 1];
-                        m.nodes[i][j + 1].nodeLeft = m.nodes[i][j];
+                if(m.nodes[col][row].cellConnectivity == 1 || m.nodes[col][row].cellConnectivity == 3){
+                    if(row + 1 < row_count) {
+                        m.nodes[col][row].nodeRight = m.nodes[col][row + 1];
+                        m.nodes[col][row + 1].nodeLeft = m.nodes[col][row];
                     }
                 }
-                if(m.nodes[i][j].cellConnectivity == 2 || m.nodes[i][j].cellConnectivity == 3){
-                    if(i + 1 < row_count) {
-                        m.nodes[i][j].nodeBelow = m.nodes[i + 1][j];
-                        m.nodes[i + 1][j].nodeAbove = m.nodes[i][j];
+                if(m.nodes[col][row].cellConnectivity == 2 || m.nodes[col][row].cellConnectivity == 3){
+                    if(col + 1 < col_count) {
+                        m.nodes[col][row].nodeBelow = m.nodes[col + 1][row];
+                        m.nodes[col + 1][row].nodeAbove = m.nodes[col][row];
                     }
                 }
             }
