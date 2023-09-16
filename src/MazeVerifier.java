@@ -1,15 +1,19 @@
+import java.util.Stack;
+
 public class MazeVerifier {
     
-
-    public static boolean verifyMaze(Maze maze){
-        for(int col = 0; col < maze.columns; col++){
-            for(int row = 0; row < maze.rows; row++){
-                if(maze.nodes[col][row].cellConnectivity != 3){
-                    return false;
-                }
-            }
+    public static void main(String[] args) throws Exception {
+        if(args.length != 1){
+            System.out.println("Usage: java MazeVerifier <maze file>");
+            System.exit(1);
+            return;
         }
-        return true;
+        Maze m = Maze.readMaze(args[0]);
+
+        System.out.println("Number of cells having four walls: " + cellsFourWalls(m));
+        System.out.println("Number of cells having zero walls: " + cellsZeroWalls(m));
+        System.out.println("Any circular path: " + circularPaths(m));
+        System.out.println("All nodes visitable: " + allNodesVisitable(m));
     }
 
     public static int cellsFourWalls(Maze maze){
@@ -40,12 +44,47 @@ public class MazeVerifier {
         return count;
     }
 
-    public static int circularPaths(Maze m){
-        int count = 0;
+    public static boolean circularPaths(Maze m){
+        boolean circularPaths = false;
 
         
 
-        return count;
+        return circularPaths;
+    }
+
+    public static boolean allNodesVisitable(Maze m){
+        boolean visitable = true;
+
+        // We perform a DFS search to see if all the nodes can be visited from the starting point
+        Stack<Node> nodeStack = new Stack<>();
+        nodeStack.push(m.startNode);
+        m.startNode.visited = true;
+
+        while (!nodeStack.isEmpty()) {
+            Node currentNode = nodeStack.pop();
+
+            // Explore neighboring nodes
+            for (Node neighbor : currentNode.getNeighbours()) {
+                if (!neighbor.visited) {
+                    neighbor.visited = true;
+                    nodeStack.push(neighbor);
+                }
+            }
+        }
+        
+        // Once the DFS search is done, we check if each node has been visited individually
+        for(int row = 0; row < m.rows; row++){
+            for(int col = 0; col < m.columns; col++){
+                if(m.nodes[col][row].visited == false){
+                    visitable = true;
+                    break;
+                }
+            }
+        }
+
+        m.refreshMaze();
+
+        return visitable;
     }
     
 }
