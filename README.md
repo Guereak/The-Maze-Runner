@@ -1,18 +1,35 @@
-## Getting Started
+## Usage
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+### Maze generator
 
-## Folder Structure
+To run the MazeGenerator program, type the following command in the terminal:
 
-The workspace contains two folders by default, where:
+```
+java MazeGenerator 5 6 maze.dat
+```
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+where `5` is the number of rows, `6` is the number of columns and `maze.dat` is the filename where the generated maze will be saved.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+### Maze solver
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+To run the MazeSolver program, type the following command in the terminal:
 
-## Dependency Management
+```
+java MazeSolver maze.dat solution.dat
+```
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+where `maze.dat` is the filename containing the created maze and `solution.dat` is the filename where the solution will be saved.
+
+### Maze verifier
+
+To run the MazeVerifier program, type the following command in the terminal:
+
+```
+java MazeVerifier maze.dat solution.dat
+```
+
+where `maze.dat` is the filename containing the created maze and `solution.dat` is the filename containing the maze solution.
+
+Each of the three programs should handle any filename or extension. If invalid inputs are given or the program is unable to allocate memory for the maze size specified, an error message will be displayed. 
+
+Before running the programs, make sure that the Java Development Kit (JDK) is installed on your machine and the correct paths are set up in the system variables.
