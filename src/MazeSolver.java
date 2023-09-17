@@ -102,7 +102,7 @@ public class MazeSolver {
                     neighbor.visited = true;
                     neighbor.setParent(currentNode);
                     nodeStack.push(neighbor);
-                    r.totalSteps++;
+                    //r.totalSteps++;
                 }
             }
         }
@@ -116,7 +116,7 @@ public class MazeSolver {
         }
 
         //We remove the final dequeue from the total steps count
-        r.totalSteps -= r.getSteps();
+        //r.totalSteps -= r.getSteps();
         
         m.refreshMaze();
 

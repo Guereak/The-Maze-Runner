@@ -27,7 +27,7 @@ public class Results {
 
     public void show(){
         System.out.println("Algorithm: " + algorithm);
-        System.out.println("Total Steps: " + totalSteps);
+        System.out.println("Nodes evaluated: " + totalSteps);
         System.out.println("Time Taken: " + timeTaken + "ms");
         System.out.println("Path Length: " + steps);
         System.out.print("Path: (");
