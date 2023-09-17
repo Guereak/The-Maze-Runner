@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.ArrayList;
 
 public class MazeVerifier {
     
@@ -9,6 +10,10 @@ public class MazeVerifier {
             return;
         }
         Maze m = Maze.readMaze(args[0]);
+
+        Results r = MazeSolver.solveMazeDFS(m);
+        displayMaze(m, r.positions);
+
 
         System.out.println("Number of cells having four walls: " + cellsFourWalls(m));
         System.out.println("Number of cells having zero walls: " + cellsZeroWalls(m));
@@ -85,6 +90,49 @@ public class MazeVerifier {
         m.refreshMaze();
 
         return visitable;
+    }
+
+    //Display the maze with the path to the solution marked with asterisks
+    public static void displayMaze(Maze m, ArrayList<Integer> positions){
+        for(int row = 0; row < m.rows; row++) {
+            System.out.print("+---");
+        }
+        System.out.println("+");
+
+        for(int col = 0; col < m.columns; col++) {
+            System.out.print("|");
+            for(int row = 0; row < m.rows; row++) {
+                if(m.startNode.x == col && m.startNode.y == row){
+                    System.out.print(" S ");
+                }
+                else if(m.endNode != null && m.endNode.x == col && m.endNode.y == row){
+                    System.out.print(" F ");
+                }
+                else if(positions.contains(col * m.rows + row + 1)){
+                    System.out.print(" * ");
+                }
+                else{
+                    System.out.print("   ");
+                }
+                if(m.nodes[col][row].cellConnectivity == 1 || m.nodes[col][row].cellConnectivity == 3){
+                    System.out.print(" ");
+                }
+                else{
+                    System.out.print("|");
+                }
+            }
+            System.out.println();
+            System.out.print("+");
+            for(int row = 0; row < m.rows; row++) {
+                if(m.nodes[col][row].cellConnectivity == 2 || m.nodes[col][row].cellConnectivity == 3){
+                    System.out.print("   +");
+                }
+                else{
+                    System.out.print("---+");
+                }
+            }
+            System.out.println();
+        }
     }
     
 }
